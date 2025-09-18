@@ -60,7 +60,13 @@ namespace DVLD_2_my
             if (e.KeyChar == (char)Keys.Back || e.KeyChar == (char)Keys.Delete)
                 return;
 
-            if (clsValidations.ValidateDigits(e.KeyChar.ToString()))
+            if (clsValidations.ValidatePersonID(e.KeyChar.ToString()))
+                return;
+
+            if (clsValidations.NationalNoRegex(e.KeyChar.ToString()))
+                return;
+
+            if (clsValidations.ValidateName(e.KeyChar.ToString()));
                 return;
         }
 
@@ -68,7 +74,53 @@ namespace DVLD_2_my
         {
             DataView dv = _AllPeopleData.DefaultView;
 
-            if (string.IsNullOrEmpty(tbFilterBy.Text) && cbFilterBy.SelectedIndex == 0)
+            if (!string.IsNullOrEmpty(tbFilterBy.Text) && cbFilterBy.SelectedIndex != 0)
+            {
+                if (cbFilterBy.Text == "Person ID")
+                {
+                    if (int.TryParse(tbFilterBy.Text, out int PersonID))
+                    {
+                        dv.RowFilter = $"PersonID = {PersonID}";
+                        lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    }
+                }
+                else if (cbFilterBy.Text == "National No.")
+                {
+                    dv.RowFilter = $"NationalNo = '{tbFilterBy.Text}'";
+                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                }
+                else if (cbFilterBy.Text == "First Name")
+                {
+                    dv.RowFilter = $"FirstName = '{tbFilterBy.Text}'";
+                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                }
+                else if (cbFilterBy.Text == "Second Name")
+                {
+                    dv.RowFilter = $"SecondName = '{tbFilterBy.Text}'";
+                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                }
+                else if (cbFilterBy.Text == "Third Name")
+                {
+                    dv.RowFilter = $"ThirdName = '{tbFilterBy.Text}'";
+                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                }
+                else if (cbFilterBy.Text == "Last Name")
+                {
+                    dv.RowFilter = $"LastName = '{tbFilterBy.Text}'";
+                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                }
+                else if (cbFilterBy.Text == "Nationality")
+                {
+                    dv.RowFilter = $"Nationality = '{tbFilterBy.Text}'";
+                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                }
+
+                else
+                {
+                    dgvManagePeople.DataSource = dv;
+                }
+            }
+            else
             {
                 dv.RowFilter = string.Empty;
                 dgvManagePeople.DataSource = dv;
@@ -76,16 +128,6 @@ namespace DVLD_2_my
                 return;
             }
 
-            if (cbFilterBy.Text == "Person ID")
-            {
-                if (int.TryParse(tbFilterBy.Text, out int PersonID))
-                    dv.RowFilter = $"PersonID = {PersonID}";
-                else
-                    dv.RowFilter = string.Empty;
-            }
-
-            dgvManagePeople.DataSource = dv;
-            lblRecord.Text = "#Recorde: " + dv.Count.ToString();
         }
 
     }

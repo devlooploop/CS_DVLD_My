@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 
 namespace DVLD_2_my.GlobalClasses
@@ -15,7 +16,7 @@ namespace DVLD_2_my.GlobalClasses
             eLastName = 6, eNationality = 7, eGender = 8, ePhone = 9, eEmail = 10
         }
 
-        static public bool ValidateDigits(string Digit)
+        static public bool ValidatePersonID(string Digit)
         {
             if (string.IsNullOrEmpty(Digit))
                 return false;
@@ -37,12 +38,27 @@ namespace DVLD_2_my.GlobalClasses
             return Regex.IsMatch(NationalityOrGender, @"^[a-zA-Z]+$");
         }
 
+        static public bool EmailRegex(string EmailRegex)
+        {
+            if (string.IsNullOrEmpty(EmailRegex))
+                return false;
+            return Regex.IsMatch(EmailRegex, @"^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.com$");
+        }
+
+        static public bool NationalNoRegex(string NationalNoRegex)
+        {
+            if (string.IsNullOrEmpty(NationalNoRegex))
+                return false;
+            return Regex.IsMatch(NationalNoRegex, @"^[A-Za-z][0-9]+$");
+        }
+
+
+
         //static public void ValidateName()
         //{
 
-        //    const string EmailRegex = @"^\S+@\S+\.\S+$";
         //    const string NumericRegex = @"^[0-9]+$";
-        //    const string NationalNoRegex = @"^[A-Za-z][0-9]+$";
+        //    const string  = @"^$";
         //}
 
         static public bool ValidatePhone(string Phone)
