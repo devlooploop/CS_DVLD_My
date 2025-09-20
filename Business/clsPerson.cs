@@ -139,5 +139,45 @@ namespace Business
             return clsPersonDataAccess.GetAllPeople();
         }
 
+        // ************** ************* *************//
+        //                New Methodes               //
+        // ************** ************* *************//
+
+
+        public static DataTable GetAllPeopleWithNationalityAndGender()
+        {
+            DataTable dtPeople = clsPersonDataAccess.GetAllPeople();
+            DataTable dtCountries = clsCountryData.GetAllCountries();
+
+            dtPeople.Columns.Add("Nationality",typeof(string));
+            dtPeople.Columns.Add("Gender",typeof(string));
+
+            // gender =???
+
+            string Nationality = string.Empty;
+
+            foreach (DataRow PersonRecord in dtPeople.Rows)
+            {
+                int PersonCountryID = Convert.ToInt32(PersonRecord["NationalityCountryID"]);
+
+
+                foreach (DataRow CountryRecord in dtCountries.Rows)
+                {
+                    int CountryID = Convert.ToInt32(CountryRecord["CountryID"]);
+
+                    if (PersonCountryID == CountryID)
+                    {
+                        Nationality = CountryRecord["CountryName"].ToString();
+                        break;
+                    }
+                }
+
+                PersonRecord["Nationality"] = Nationality;  
+            }
+
+
+            return dtPeople;
+        }
+
     }
 }

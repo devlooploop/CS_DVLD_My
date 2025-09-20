@@ -10,7 +10,8 @@ namespace DVLD_2_my
     public partial class frmManagePeople : Form
     {
 
-        private DataTable _AllPeopleData = clsPerson.GetAllPeople();
+      //  private DataTable _AllPeopleData = clsPerson.GetAllPeople();
+        private DataTable _AllPeopleData = clsPerson.GetAllPeopleWithNationalityAndGender();
 
         public frmManagePeople()
         {
@@ -66,7 +67,7 @@ namespace DVLD_2_my
             if (clsValidations.NationalNoRegex(e.KeyChar.ToString()))
                 return;
 
-            if (clsValidations.ValidateName(e.KeyChar.ToString()));
+            if (clsValidations.ValidateName(e.KeyChar.ToString()))
                 return;
         }
 
@@ -91,28 +92,30 @@ namespace DVLD_2_my
                 }
                 else if (cbFilterBy.Text == "First Name")
                 {
-                    dv.RowFilter = $"FirstName = '{tbFilterBy.Text}'";
+                    dv.RowFilter = $"FirstName LIKE '{tbFilterBy.Text}%'";
                     lblRecord.Text = "#Recorde: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "Second Name")
                 {
-                    dv.RowFilter = $"SecondName = '{tbFilterBy.Text}'";
+                    dv.RowFilter = $"SecondName LIKE '{tbFilterBy.Text}%'";
                     lblRecord.Text = "#Recorde: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "Third Name")
                 {
-                    dv.RowFilter = $"ThirdName = '{tbFilterBy.Text}'";
+                    dv.RowFilter = $"ThirdName LIKE '{tbFilterBy.Text}%'";
                     lblRecord.Text = "#Recorde: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "Last Name")
                 {
-                    dv.RowFilter = $"LastName = '{tbFilterBy.Text}'";
+                    dv.RowFilter = $"LastName LIKE '{tbFilterBy.Text}%'";
                     lblRecord.Text = "#Recorde: " + dv.Count.ToString();
-                }
+                } 
                 else if (cbFilterBy.Text == "Nationality")
                 {
-                    dv.RowFilter = $"Nationality = '{tbFilterBy.Text}'";
-                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                   
+                        dv.RowFilter = $"Nationality = '{(tbFilterBy.Text)}'";
+                        lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                  
                 }
 
                 else
