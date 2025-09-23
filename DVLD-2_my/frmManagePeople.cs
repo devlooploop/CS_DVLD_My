@@ -33,7 +33,8 @@ namespace DVLD_2_my
         private void _RefreshPeopleData()
         {
             if (_AllPeopleData == null || tbFilterBy.Text == string.Empty)
-                _AllPeopleData = clsPerson.GetAllPeople();
+             //   _AllPeopleData = clsPerson.GetAllPeople();
+                _AllPeopleData = clsPerson.GetAllPeopleWithNationalityAndGender();
 
             dgvManagePeople.DataSource = _AllPeopleData;
             lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
@@ -112,12 +113,9 @@ namespace DVLD_2_my
                 } 
                 else if (cbFilterBy.Text == "Nationality")
                 {
-                   
-                        dv.RowFilter = $"Nationality = '{(tbFilterBy.Text)}'";
+                    dv.RowFilter = $"Nationality = '{(tbFilterBy.Text)}'";
                         lblRecord.Text = "#Recorde: " + dv.Count.ToString();
-                  
                 }
-
                 else
                 {
                     dgvManagePeople.DataSource = dv;

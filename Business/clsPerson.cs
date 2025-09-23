@@ -139,45 +139,43 @@ namespace Business
             return clsPersonDataAccess.GetAllPeople();
         }
 
+
         // ************** ************* *************//
         //                New Methodes               //
         // ************** ************* *************//
 
-
         public static DataTable GetAllPeopleWithNationalityAndGender()
         {
+            string NationalityString = string.Empty;
+            sbyte  GenderValue = -1;
+            int    CountryIDValue = -1;
+
             DataTable dtPeople = clsPersonDataAccess.GetAllPeople();
             DataTable dtCountries = clsCountryData.GetAllCountries();
 
             dtPeople.Columns.Add("Nationality",typeof(string));
-            dtPeople.Columns.Add("Gender",typeof(string));
-
-            // gender =???
-
-            string Nationality = string.Empty;
-
+            dtPeople.Columns.Add("GenderString",typeof(string));
+        
             foreach (DataRow PersonRecord in dtPeople.Rows)
             {
-                int PersonCountryID = Convert.ToInt32(PersonRecord["NationalityCountryID"]);
-
 
                 foreach (DataRow CountryRecord in dtCountries.Rows)
                 {
-                    int CountryID = Convert.ToInt32(CountryRecord["CountryID"]);
+                    CountryIDValue = Convert.ToInt32(CountryRecord["CountryID"]);
 
-                    if (PersonCountryID == CountryID)
+                    if (Convert.ToInt32(PersonRecord["NationalityCountryID"]) == CountryIDValue)
                     {
-                        Nationality = CountryRecord["CountryName"].ToString();
+                        NationalityString = CountryRecord["CountryName"].ToString();
                         break;
                     }
                 }
-
-                PersonRecord["Nationality"] = Nationality;  
+               PersonRecord["Nationality"] = NationalityString;  
+              
+               GenderValue = Convert.ToSByte(PersonRecord["Gender"]);
+               PersonRecord["GenderString"] = (GenderValue == 0 ? "Male" : "Female"); 
             }
-
 
             return dtPeople;
         }
-
     }
 }
