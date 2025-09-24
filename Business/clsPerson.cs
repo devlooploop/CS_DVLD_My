@@ -146,9 +146,9 @@ namespace Business
 
         public static DataTable GetAllPeopleWithNationalityAndGender()
         {
-            string NationalityString = string.Empty;
             sbyte  GenderValue = -1;
             int    CountryIDValue = -1;
+            string NationalityString = string.Empty;
 
             DataTable dtPeople = clsPersonDataAccess.GetAllPeople();
             DataTable dtCountries = clsCountryData.GetAllCountries();
@@ -158,7 +158,6 @@ namespace Business
         
             foreach (DataRow PersonRecord in dtPeople.Rows)
             {
-
                 foreach (DataRow CountryRecord in dtCountries.Rows)
                 {
                     CountryIDValue = Convert.ToInt32(CountryRecord["CountryID"]);
@@ -169,11 +168,15 @@ namespace Business
                         break;
                     }
                 }
+
                PersonRecord["Nationality"] = NationalityString;  
-              
+               
                GenderValue = Convert.ToSByte(PersonRecord["Gender"]);
                PersonRecord["GenderString"] = (GenderValue == 0 ? "Male" : "Female"); 
             }
+
+          //  dtPeople.Columns.Remove("Gender");
+          //  dtPeople.Columns["GenderString"].ColumnName = "Gender";
 
             return dtPeople;
         }

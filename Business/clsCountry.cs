@@ -57,11 +57,9 @@ namespace Business
 
         public static clsCountry Find(string CountryName)
         {
-
             int ID = -1;
 
             if (clsCountryData.GetCountryInfoByName(ref ID,  CountryName))
-
                 return new clsCountry(ID, CountryName);
             else
                 return null;

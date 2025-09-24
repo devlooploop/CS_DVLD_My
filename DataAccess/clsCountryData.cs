@@ -87,7 +87,7 @@ namespace DataAccess
             catch (Exception ex)
             {
                 // error log here 
-                Console.WriteLine("Error ..... Error", ex);
+                Console.WriteLine("Error .....", ex);
                 isFound = false;
             }
             finally
