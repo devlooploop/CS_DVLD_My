@@ -10,7 +10,7 @@ namespace DVLD_2_my
     public partial class frmManagePeople : Form
     {
 
-      //  private DataTable _AllPeopleData = clsPerson.GetAllPeople();
+        //  private DataTable _AllPeopleData = clsPerson.GetAllPeople();
         private DataTable _AllPeopleData = clsPerson.GetAllPeopleWithNationalityAndGender();
 
         public frmManagePeople()
@@ -33,11 +33,14 @@ namespace DVLD_2_my
         private void _RefreshPeopleData()
         {
             if (_AllPeopleData == null || tbFilterBy.Text == string.Empty)
-             //   _AllPeopleData = clsPerson.GetAllPeople();
+                //   _AllPeopleData = clsPerson.GetAllPeople();
                 _AllPeopleData = clsPerson.GetAllPeopleWithNationalityAndGender();
 
             dgvManagePeople.DataSource = _AllPeopleData;
             lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
+
+            // dgvManagePeople.Columns["Gender"].Visible = false;
+            dgvManagePeople.Columns["NationalityCountryID"].Visible = false;
         }
 
         private void _FillCBboxFilterBy()
@@ -74,6 +77,8 @@ namespace DVLD_2_my
 
         private void tbFilterBy_TextChanged(object sender, EventArgs e)
         {
+            _RefreshPeopleData();
+
             DataView dv = _AllPeopleData.DefaultView;
 
             if (!string.IsNullOrEmpty(tbFilterBy.Text) && cbFilterBy.SelectedIndex != 0)
@@ -85,6 +90,7 @@ namespace DVLD_2_my
                         dv.RowFilter = $"PersonID = {PersonID}";
                         lblRecord.Text = "#Recorde: " + dv.Count.ToString();
                     }
+                    
                 }
                 else if (cbFilterBy.Text == "National No.")
                 {
@@ -110,27 +116,24 @@ namespace DVLD_2_my
                 {
                     dv.RowFilter = $"LastName LIKE '{tbFilterBy.Text}%'";
                     lblRecord.Text = "#Recorde: " + dv.Count.ToString();
-                } 
+                }
                 else if (cbFilterBy.Text == "Nationality")
                 {
-                    dv.RowFilter = $"Nationality = '{(tbFilterBy.Text)}'";
-                        lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    dv.RowFilter = $"Nationality LIKE '{tbFilterBy.Text}%'";
+                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
                 }
                 else
                 {
+                    dv.RowFilter = string.Empty;
                     dgvManagePeople.DataSource = dv;
+                    lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
+                    return;
                 }
-            }
-            else
-            {
-                dv.RowFilter = string.Empty;
-                dgvManagePeople.DataSource = dv;
-                lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
-                return;
+
+                
             }
 
         }
 
     }
-
 }
