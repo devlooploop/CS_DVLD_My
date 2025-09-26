@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
+using System.Runtime.Remoting.Messaging;
 
 
 namespace DataAccess
@@ -42,7 +44,7 @@ namespace DataAccess
 
         private const string SelectByNationalNoQuery = @"SELECT * FROM People WHERE NationalNo = @NationalNo";
 
-        private static string PeopleWithStringNamesQuery = @"SELECT People.PersonID, People.NationalNo, People.FirstName, People.SecondName, 
+        private const string PeopleWithStringNamesQuery = @"SELECT People.PersonID, People.NationalNo, People.FirstName, People.SecondName, 
                                                                        People.ThirdName, People.LastName, 
                                                           CASE WHEN People.Gender = 0 THEN 'Male' ELSE 'Female' END AS Gender,
                                                           People.DateOfBirth, Countries.CountryName AS Nationality, 
@@ -325,7 +327,38 @@ namespace DataAccess
             return isFound;
         }
 
-        
-  
+        // ************** ************* *************//
+        //                New Methodes               //
+        // ************** ************* *************//
+
+        public static DataTable GetAllPeopleWithJoinedInfo()
+        {
+            DataTable dt = new DataTable();
+            
+            SqlConnection sqlConnection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            SqlCommand    sqlCommand    = new SqlCommand(PeopleWithStringNamesQuery, sqlConnection);
+
+            try
+            {
+                sqlConnection.Open();
+
+                SqlDataReader Reader = sqlCommand.ExecuteReader();
+
+                if (Reader.HasRows)
+                {
+                    dt.Load(Reader);
+                }
+
+                Reader.Close();
+            }
+            catch( Exception) { }
+
+            finally { sqlConnection.Close(); }
+
+            return dt;
+
+        }
+
     }
 }

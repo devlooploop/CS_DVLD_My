@@ -144,41 +144,10 @@ namespace Business
         //                New Methodes               //
         // ************** ************* *************//
 
-        public static DataTable GetAllPeopleWithNationalityAndGender()
+       public static DataTable GetPeopleWithStringValues()
         {
-            sbyte  GenderValue = -1;
-            int    CountryIDValue = -1;
-            string NationalityString = string.Empty;
-
-            DataTable dtPeople = clsPersonDataAccess.GetAllPeople();
-            DataTable dtCountries = clsCountryData.GetAllCountries();
-
-            dtPeople.Columns.Add("Nationality",typeof(string));
-            dtPeople.Columns.Add("GenderString",typeof(string));
-        
-            foreach (DataRow PersonRecord in dtPeople.Rows)
-            {
-                foreach (DataRow CountryRecord in dtCountries.Rows)
-                {
-                    CountryIDValue = Convert.ToInt32(CountryRecord["CountryID"]);
-
-                    if (Convert.ToInt32(PersonRecord["NationalityCountryID"]) == CountryIDValue)
-                    {
-                        NationalityString = CountryRecord["CountryName"].ToString();
-                        break;
-                    }
-                }
-
-               PersonRecord["Nationality"] = NationalityString;  
-               
-               GenderValue = Convert.ToSByte(PersonRecord["Gender"]);
-               PersonRecord["GenderString"] = (GenderValue == 0 ? "Male" : "Female"); 
-            }
-
-          //  dtPeople.Columns.Remove("Gender");
-          //  dtPeople.Columns["GenderString"].ColumnName = "Gender";
-
-            return dtPeople;
+            return clsPersonDataAccess.GetAllPeopleWithJoinedInfo();
         }
+        
     }
 }

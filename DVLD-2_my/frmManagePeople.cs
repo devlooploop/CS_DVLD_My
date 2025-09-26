@@ -10,8 +10,9 @@ namespace DVLD_2_my
     public partial class frmManagePeople : Form
     {
 
-        //  private DataTable _AllPeopleData = clsPerson.GetAllPeople();
-        private DataTable _AllPeopleData = clsPerson.GetAllPeopleWithNationalityAndGender();
+        private DataTable _AllPeopleData = clsPerson.GetPeopleWithStringValues();
+       // private DataTable _AllPeopleData = clsPerson.GetAllPeople();
+       //  private DataTable _AllPeopleData = clsPerson.GetAllPeopleWithNationalityAndGender();
 
         public frmManagePeople()
         {
@@ -33,14 +34,12 @@ namespace DVLD_2_my
         private void _RefreshPeopleData()
         {
             if (_AllPeopleData == null || tbFilterBy.Text == string.Empty)
-                //   _AllPeopleData = clsPerson.GetAllPeople();
-                _AllPeopleData = clsPerson.GetAllPeopleWithNationalityAndGender();
+
+                _AllPeopleData = clsPerson.GetPeopleWithStringValues();
 
             dgvManagePeople.DataSource = _AllPeopleData;
             lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
 
-            // dgvManagePeople.Columns["Gender"].Visible = false;
-            dgvManagePeople.Columns["NationalityCountryID"].Visible = false;
         }
 
         private void _FillCBboxFilterBy()
@@ -90,7 +89,6 @@ namespace DVLD_2_my
                         dv.RowFilter = $"PersonID = {PersonID}";
                         lblRecord.Text = "#Recorde: " + dv.Count.ToString();
                     }
-                    
                 }
                 else if (cbFilterBy.Text == "National No.")
                 {
@@ -129,8 +127,6 @@ namespace DVLD_2_my
                     lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
                     return;
                 }
-
-                
             }
 
         }
