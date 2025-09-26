@@ -38,7 +38,7 @@ namespace DVLD_2_my
                 _AllPeopleData = clsPerson.GetPeopleWithStringValues();
 
             dgvManagePeople.DataSource = _AllPeopleData;
-            lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
+            lblRecord.Text = "#Record: " + _AllPeopleData.Rows.Count.ToString();
 
         }
 
@@ -87,44 +87,59 @@ namespace DVLD_2_my
                     if (int.TryParse(tbFilterBy.Text, out int PersonID))
                     {
                         dv.RowFilter = $"PersonID = {PersonID}";
-                        lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                        lblRecord.Text = "#Record: " + dv.Count.ToString();
                     }
                 }
                 else if (cbFilterBy.Text == "National No.")
                 {
                     dv.RowFilter = $"NationalNo = '{tbFilterBy.Text}'";
-                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "First Name")
                 {
                     dv.RowFilter = $"FirstName LIKE '{tbFilterBy.Text}%'";
-                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "Second Name")
                 {
                     dv.RowFilter = $"SecondName LIKE '{tbFilterBy.Text}%'";
-                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "Third Name")
                 {
                     dv.RowFilter = $"ThirdName LIKE '{tbFilterBy.Text}%'";
-                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "Last Name")
                 {
                     dv.RowFilter = $"LastName LIKE '{tbFilterBy.Text}%'";
-                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
                 }
                 else if (cbFilterBy.Text == "Nationality")
                 {
                     dv.RowFilter = $"Nationality LIKE '{tbFilterBy.Text}%'";
-                    lblRecord.Text = "#Recorde: " + dv.Count.ToString();
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
+                }
+                else if(cbFilterBy.Text == "Gender")
+                {
+                    dv.RowFilter = $"Gender LIKE '{tbFilterBy.Text}%'";
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
+                }
+                else if(cbFilterBy.Text == "Phone")
+                {
+                    dv.RowFilter = $"Phone LIKE '{tbFilterBy.Text}%'";
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
+                }
+                else if(cbFilterBy.Text == "Email")
+                {
+                    dv.RowFilter = $"Email LIKE '{tbFilterBy.Text}%'";
+                    lblRecord.Text = "#Record: " + dv.Count.ToString();
                 }
                 else
                 {
                     dv.RowFilter = string.Empty;
                     dgvManagePeople.DataSource = dv;
-                    lblRecord.Text = "#Recorde: " + _AllPeopleData.Rows.Count.ToString();
+                    lblRecord.Text = "#Record: " + _AllPeopleData.Rows.Count.ToString();
                     return;
                 }
             }
